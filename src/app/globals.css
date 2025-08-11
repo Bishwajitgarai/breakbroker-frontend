@@ -1,26 +1,64 @@
 @import "tailwindcss";
 
+/* Base theme variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Fonts */
+  --font-sans: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-mono: 'Courier New', Courier, monospace;
+
+  /* Additional colors */
+  --primary: #0070f3;
+  --secondary: #555555;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Dark theme overrides */
+[data-theme="dark"] {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+
+  --primary: #79ffe1;
+  --secondary: #cccccc;
 }
 
+/* System preference: if user hasn't manually set, apply system dark */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme]) {
     --background: #0a0a0a;
     --foreground: #ededed;
+
+    --primary: #79ffe1;
+    --secondary: #cccccc;
   }
 }
 
+/* Apply variables */
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  margin: 0;
+  padding: 1rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/* Example usage of colors */
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Code blocks use monospace */
+code, pre {
+  font-family: var(--font-mono);
+  background: var(--secondary);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+}
+

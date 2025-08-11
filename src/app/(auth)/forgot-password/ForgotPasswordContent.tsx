@@ -5,7 +5,7 @@ import { Mail, Phone } from "lucide-react";
 import { sendForgetPasswordOtp } from "@/app/lib/api";
 import { showErrorToast, showSuccessToast } from "@/utils/toastHelper";
 
-export default function ForgotPasswordPage() {
+export default function ForgotPassword() {
   const router = useRouter();
   const searchParams = useSearchParams();
 

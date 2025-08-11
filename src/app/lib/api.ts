@@ -250,3 +250,80 @@ export async function refreshAccessToken(refresh_token: string) {
   return res;
 }
 
+
+
+interface ReverseGeocodeResponse {
+  city_name: string;
+  city_id: string;
+  state_name: string;
+  state_id: string;
+  district_id: string;
+}
+
+export async function getByreverseGeocode(lat:number,long:number) {
+  const res = await apiClient<ReverseGeocodeResponse>({
+    url: "/locations/reverse-geocode",
+    params: { lat, long },
+    method: "get",
+    add_token: false, // no auth token needed
+  });
+
+  if (!res.success) {
+    console.error("Forget password change failed:", res.message);
+  } else {
+    console.log("Password changed successfully", res.data);
+  }
+
+  return res;
+}
+
+
+
+export interface Suggestion {
+  city_id: string;
+  city_name: string;
+  state_id: string;
+  state_name: string;
+  district_id: string;
+  district_name: string;
+  locality_id?: string;       // Optional locality id if available
+  locality_name?: string;     // Optional locality name if available
+  distance_meters?: number;   // Optional distance from user, if backend sends it
+}
+
+export interface SuggestionsResponse {
+  total: number;
+  page: number;
+  limit: number;
+  suggestions: Suggestion[];
+}
+
+export interface SuggestionParams {
+  query?: string;
+  lat?: number;
+  long?: number;
+  page?: number;  // optional pagination params
+  limit?: number;
+}
+
+export async function getSuggestionsApi(params: SuggestionParams): Promise<SuggestionsResponse> {
+  const res = await apiClient<SuggestionsResponse>({
+    url: "/locations/suggestions",
+    method: "get",
+    params,
+    add_token: false,
+  });
+
+  if (!res.success) {
+    console.log(res.message)
+    return {
+      "total":0,
+      "limit":params.limit ||0,
+      "page":params.page ||0,
+      "suggestions":[]
+    }
+  }
+
+  return res.data; // now returns the full pagination object
+}
+

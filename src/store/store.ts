@@ -1,10 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from "@/features/user/userSlice"
+import userLocationReducer from "@/features/user/userLocationSlice"
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       user: userReducer,  // Add your user reducer here
+      userLocationData: userLocationReducer,  // Add your user reducer here
+
     },
   });
 };

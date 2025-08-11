@@ -48,9 +48,11 @@ interface RequestOptions {
   url: string;
   method?: Method;
   data?: any;
+  params?: Record<string, any>;  // <-- add this for query params
   headers?: Record<string, string>;
   add_token?: boolean; // control if auth token sent, default true
 }
+
 interface ApiResponse<T = any> {
   success: boolean;
   statusCode: number;
@@ -62,6 +64,7 @@ export async function apiClient<T = any>({
   url,
   method = "get",
   data = undefined,
+  params = undefined,   // <-- default undefined
   headers = {},
   add_token = true,
 }: RequestOptions): Promise<ApiResponse<T>> {
@@ -70,6 +73,7 @@ export async function apiClient<T = any>({
       url,
       method,
       data,
+      params,             // <-- pass params to axios
       headers: {
         ...headers,
         ...(add_token === false ? { add_token: false as any } : {}),
